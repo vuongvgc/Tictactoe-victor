@@ -143,6 +143,7 @@ ReactDOM.render(
 /*****************************
  * ********Victor*************
 ***************************** */
+/*
 function Square(props) {
     return (
       <button className="square" onClick={props.onClick}>
@@ -229,7 +230,6 @@ class Game extends React.Component {
           {status}
           </div>
           <div>
-          {/*TO DO*/}
             <ol>
               <li>Go to game start</li>
             </ol>
@@ -263,4 +263,140 @@ ReactDOM.render(
   <Game />,
   document.getElementById('root')
 );
+*/
+/**********************
+ *******Victor*********
+ *********************/
+function Square(props) {
+    return (
+      <button 
+      className="square" 
+      onClick={props.onClick}>
+          {props.value}
+      </button>
+    )
+  }
+class Board extends React.Component {
+  renderSquare(i) {
+    return <Square 
+    value={this.props.squares[i]}
+    onClick={() => this.props.onClick(i)}
+    />
+  }
+  render() {
+    return (
+      <div>
+      <div className="board-row">
+        {this.renderSquare(0)}
+        {this.renderSquare(1)}
+        {this.renderSquare(2)}
+      </div>
+      <div className="board-row">
+        {this.renderSquare(3)}
+        {this.renderSquare(4)}
+        {this.renderSquare(5)}
+      </div>
+      <div className="board-row">
+        {this.renderSquare(6)}
+        {this.renderSquare(7)}
+        {this.renderSquare(8)}
+      </div>
+    </div>
+    )
+  }
+}
+class Game extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      squares: Array(9).fill(),
+      xIsNext: true,
+    }
+  }
+  handleClick(i) {
+    const squares =this.state.squares.slice();
+    if(caculatorWinner(squares) || squares[i]) {
+      return
+    }
+    else {
+      squares[i] = this.state.xIsNext ? 'X': 'O';
+      this.setState({
+      squares: squares,
+      xIsNext: !this.state.xIsNext,
+    })
+    }
+    
 
+  }
+  render() {
+    const squares = this.state.squares.slice();
+    let  status ;
+    let winner = caculatorWinner(squares);
+    console.log(caculatorWinner(squares))
+    if(winner) {
+      status = 'Winner: ' + winner;
+    }
+    else {
+      status = 'The Next player ' + (this.state.xIsNext ? 'X': 'O');
+    }
+    return(
+      <div className="game">
+        <div className="game-board">
+          <Board 
+          squares={squares}
+          onClick={(i) => this.handleClick(i)} />
+        </div>
+        <div className="game-info">
+          <div className="status">
+           {status}
+          </div>
+          <div> Step</div>
+        </div>
+        
+      </div>
+    )
+  }
+}
+function caculatorWinner(square) {
+  const arrayWin = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [2, 4, 6],
+    [0, 4, 8]
+  ];
+  for(let i = 0 ; i < arrayWin.length; i++) {
+    const [a, b, c] = arrayWin[i];
+    if(square[a] && square[a] === square[b] && square[a] === square[c]) {
+      return square[a]
+    }
+  }
+  return null
+}
+
+ReactDOM.render(
+  <Game />,
+  document.getElementById('root')
+)
+/**
+ *let array1 = Array(9).fill(null);
+let array2 = array1.slice();
+array2[0] = '1';
+array2[1] = '2';
+array2[2] = '3';
+array2[3] = '4';
+array2[4] = '5';
+array2[5] = '6';
+array2[6] = '7';
+array2[7] = '8';
+array2[8] = '9';
+array1 = array2
+
+// fill with 0 from position 2 until position 4
+console.log(array1);
+
+
+ */
