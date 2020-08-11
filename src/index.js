@@ -357,6 +357,25 @@ class Game extends React.Component {
     )
   }
 }
+class App extends React.Component {
+  render(){
+    return (
+      <div className="container">
+          <header><h1>Victor Do Game</h1></header>
+          <Game />
+          <footer>
+            <div>
+              <h2>Writter by Victor Do</h2>
+            </div>
+            <div className="social">
+              <div><h2>Facebook</h2></div>
+              <div><h2>Youtube</h2></div>
+              <div><h2>Medium</h2></div>
+            </div>
+          </footer>
+      </div>
+  )}
+};
 function caculatorWinner(square) {
   const arrayWin = [
     [0, 1, 2],
@@ -378,7 +397,7 @@ function caculatorWinner(square) {
 }
 
 ReactDOM.render(
-  <Game />,
+  <App />,
   document.getElementById('root')
 )
 /**

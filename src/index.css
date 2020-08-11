@@ -43,9 +43,35 @@ body {
   .game {
     display: flex;
     flex-direction: row;
+    border: 1px solid #000;
+    padding: 1rem;
   }
   
   .game-info {
     margin-left: 20px;
+  }
+  .container {
+    padding: 2rem;
+    background-image: linear-gradient(to bottom right, rgba(255,0,0,0), rgba(255,0,0,1));
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+  }
+  header {
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 5rem;
+  }
+  footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .social {
+    display: flex;
+    justify-content: space-around;
+  }
+  .social div {
+    margin-right: 1rem;
   }
   
