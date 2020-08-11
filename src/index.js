@@ -309,30 +309,47 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      squares: Array(9).fill(),
+      history: [{squares: Array(9).fill()},],
       xIsNext: true,
+      stepNumber: 0,
     }
   }
   handleClick(i) {
-    const squares =this.state.squares.slice();
+    const history = this.state.history.slice(0, this.state.stepNumber + 1);
+    const current = history[history.length - 1]; 
+    const squares = current.squares.slice();
     if(caculatorWinner(squares) || squares[i]) {
       return
     }
     else {
       squares[i] = this.state.xIsNext ? 'X': 'O';
       this.setState({
-      squares: squares,
-      xIsNext: !this.state.xIsNext,
+        history: history.concat([{squares: squares}]),
+        xIsNext: !this.state.xIsNext,
+        stepNumber: history.length
     })
     }
-    
-
+  }
+  jumpTo(step) {
+    this.setState({
+      stepNumber: step,
+      xIsNext: step % 2 === 0,
+    })
   }
   render() {
-    const squares = this.state.squares.slice();
+    const history = this.state.history
+    const squares = history[this.state.stepNumber].squares.slice();
+    const moves = history.map((step, move) => {
+      const desc = step ?
+        'Go to game move #' + move :
+        'Go to game start'      
+      return (
+        <li id={move}><button onClick={() => this.jumpTo(move)}>{desc}</button></li>
+      )
+    }
+    );
     let  status ;
     let winner = caculatorWinner(squares);
-    console.log(caculatorWinner(squares))
     if(winner) {
       status = 'Winner: ' + winner;
     }
@@ -350,7 +367,9 @@ class Game extends React.Component {
           <div className="status">
            {status}
           </div>
-          <div> Step</div>
+          <div> 
+            {moves}
+          </div>
         </div>
         
       </div>
@@ -418,4 +437,16 @@ array1 = array2
 console.log(array1);
 
 
+ */
+/**
+ * const array1 = [1, 4, 9, 16];
+
+// pass a function to map
+const map1 = array1.map((step, move) => {
+      const a = step;
+   const b = move;
+return a,b})
+
+console.log(map1);
+// expected output: Array [2, 8, 18, 32]
  */
